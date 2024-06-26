@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Abstractions.Interfaces
 {
-    public interface ICurrenUserService
+    public interface ICurrentUserService
     {
         long UserId { get; set; }
     }

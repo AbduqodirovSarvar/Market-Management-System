@@ -7,10 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class User : PersonBaseEntity
+    public class UserRole : DescriptionLocalizableEntity
     {
-        public string PasswordHash { get; set; } = null!;
-        public long RoleId { get; set; }
-        public UserRole? Role { get; set; }
     }
 }

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.Abstractions.Interfaces
 {
-    internal interface IHashService
+    public interface IHashService
     {
+        string GetHash(string password);
+        bool VerifyHash(string password, string paswordHash);
     }
 }
