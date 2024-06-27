@@ -10,6 +10,6 @@ namespace Domain.Abstractions.Interfaces
     public interface IEntityBase
     {
         [Key]
-        long Id { get; set; }
+        Guid Id { get; set; }
     }
 }

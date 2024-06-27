@@ -10,13 +10,13 @@ namespace Application.Models.ViewModels
 {
     public class UserViewModel
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public string? Email { get; set; }
         public string Phone { get; set; } = null!;
         public EnumViewModel Gender { get; set; } = null!;
-        public long CreatedBy { get; set; }
+        public Guid CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }

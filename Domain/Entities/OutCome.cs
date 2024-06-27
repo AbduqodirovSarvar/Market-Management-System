@@ -9,7 +9,7 @@ namespace Domain.Entities
 {
     public class OutCome : AudiTableEntity
     {
-        public long OrganizationId { get; set; }
+        public Guid OrganizationId { get; set; }
         public Organization? Organization { get; set; }
         public long ProductId { get; set; }
         public Product? Product { get; set; }

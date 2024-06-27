@@ -9,7 +9,7 @@ namespace Domain.Entities
 {
     public class ProductType : DescriptionLocalizableEntity
     {
-        public long MeasureId { get; set; }
+        public Guid MeasureOfTypeId { get; set; }
         public MeasureOfType? MeasureOfType { get; set; }
     }
 }

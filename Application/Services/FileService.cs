@@ -46,7 +46,6 @@ namespace Application.Services
             }
             catch (Exception ex)
             {
-                // Handle exceptions as needed (e.g., log or throw)
                 Console.WriteLine($"Error removing file: {ex.Message}");
                 throw;
             }
@@ -102,7 +101,6 @@ namespace Application.Services
             }
             catch (Exception ex)
             {
-                // Handle exceptions as needed (e.g., log or throw)
                 Console.WriteLine($"Error retrieving file: {ex.Message}");
                 throw;
             }

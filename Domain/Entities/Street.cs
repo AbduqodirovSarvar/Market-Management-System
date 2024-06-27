@@ -9,7 +9,7 @@ namespace Domain.Entities
 {
     public class Street : LocalizableEntity
     {
-        public long DistrictId { get; set; }
+        public Guid DistrictId { get; set; }
         public District? District { get; set; }
     }
 }

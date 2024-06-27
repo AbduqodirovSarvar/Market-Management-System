@@ -9,7 +9,7 @@ namespace Domain.Entities
 {
     public class Address : AudiTableEntity
     {
-        public long StreetId { get; set; }
+        public Guid StreetId { get; set; }
         public Street? Street { get; set; }
         public string Home { get; set; } = string.Empty;
         public string AddressLine { get; set; } = string.Empty;

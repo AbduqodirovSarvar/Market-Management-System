@@ -10,7 +10,9 @@ namespace Domain.Entities
     public class User : PersonBaseEntity
     {
         public string PasswordHash { get; set; } = null!;
-        public long RoleId { get; set; }
+        public Guid RoleId { get; set; }
         public UserRole? Role { get; set; }
+        public Guid OrganizationId { get; set; }
+        public Organization? Organization { get; set; }
     }
 }

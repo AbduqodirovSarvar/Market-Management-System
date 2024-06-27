@@ -8,6 +8,6 @@ namespace Application.Abstractions.Interfaces
 {
     public interface ICurrentUserService
     {
-        long UserId { get; set; }
+        Guid UserId { get; set; }
     }
 }

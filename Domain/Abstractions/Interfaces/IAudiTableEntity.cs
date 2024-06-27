@@ -8,7 +8,7 @@ namespace Domain.Abstractions.Interfaces
 {
     public interface IAudiTableEntity
     {
-        long CreatedBy { get; set; }
+        Guid CreatedBy { get; set; }
         DateTime CreatedAt { get; set; }
     }
 }

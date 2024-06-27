@@ -9,7 +9,7 @@ namespace Domain.Entities
 {
     public class Product : DescriptionLocalizableEntity
     {
-        public long ProductTypeId { get; set; }
+        public Guid ProductTypeId { get; set; }
         public ProductType? ProductType { get; set; }
         public string? ImageName { get; set; }
     }
