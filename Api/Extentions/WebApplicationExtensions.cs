@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Api.Extentions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,9 @@ namespace Application.Extentions
 {
     public static class WebApplicationExtensions
     {
-        public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
+        public static void ConfigureServices(this WebApplicationBuilder builder)
         {
-            /*builder.Services.AddApplicationPersistence(builder.Configuration);
-            builder.Services.AddApplication();
-            builder.Services.AddApplicationApi();
-            builder.Services.AddSwagger();*/
+            builder.Services.AddApi(builder.Configuration);
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddAuthentication(o =>
@@ -24,65 +22,61 @@ namespace Application.Extentions
                 o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-                    .AddJwtBearer(o =>
-                    {
-                        o.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            ClockSkew = TimeSpan.FromMinutes(60),
-                            ValidateLifetime = true,
-                            ValidateAudience = true,
-                            ValidateIssuer = true,
-                            ValidateIssuerSigningKey = true,
-                            ValidIssuer = builder.Configuration["JwtOptions:ValidIssuer"],
-                            ValidAudience = builder.Configuration["JwtOptions:ValidAudience"],
-                            IssuerSigningKey = new SymmetricSecurityKey(
-                                Encoding.UTF8.GetBytes(builder.Configuration["JwtOptions:SecretKey"]!))
-                        };
-                        o.Events = new JwtBearerEvents
-                        {
-                            OnAuthenticationFailed = context =>
-                            {
-                                Console.WriteLine(context.Exception); // Log the exception
-                                return Task.CompletedTask;
-                            }
-                        };
-                    });
-            builder.Services.AddAuthorization(o =>
+            .AddJwtBearer(o =>
             {
-                o.AddPolicy("AdminActions", policy =>
+                o.TokenValidationParameters = new TokenValidationParameters
                 {
-                    policy.RequireClaim(ClaimTypes.Role, UserRole.Admin.ToString());
-                });
+                    ClockSkew = TimeSpan.FromMinutes(60),
+                    ValidateLifetime = true,
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["JwtOptions:ValidIssuer"],
+                    ValidAudience = builder.Configuration["JwtOptions:ValidAudience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(builder.Configuration["JwtOptions:SecretKey"]!))
+                };
+                o.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        Console.WriteLine(context.Exception); // Log the exception
+                        return Task.CompletedTask;
+                    }
+                };
             });
+            builder.Services.AddAuthorizationBuilder()
+                .AddPolicy("SuperAdminActions", policy =>
+                {
+                    policy.RequireClaim(ClaimTypes.Role, "SuperAdmin");
+                })
+                .AddPolicy("AdminActions", policy =>
+                {
+                    policy.RequireClaim(ClaimTypes.Role, "Admin");
+                });
+
             builder.Services.AddCors(o => o.AddPolicy("AddCors", builder =>
             {
                 builder.AllowAnyOrigin()
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
-
-            return builder.Build();
         }
 
-        public static WebApplication ConfigurePipeline(this WebApplication app)
+        public static void ConfigurePipeline(this WebApplication app)
         {
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseCors("AddCors");
 
             app.UseHttpsRedirection();
             app.UseRequestLocalization();
-
+            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
-
-            return app;
         }
     }
 }

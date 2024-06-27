@@ -1,19 +1,30 @@
+using Application.Extentions;
+using Infrastructure.Persistance.EntityFramework;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Configure services
+builder.ConfigureServices();
 
+// Build the application
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// Configure the middleware pipeline
+app.ConfigurePipeline();
 
-app.UseHttpsRedirection();
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var context = services.GetRequiredService<AppDbContext>();
+try
+{
+    context.Database.Migrate();
+    Console.WriteLine("Migrations applied successfully.");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Error applying migrations: {ex.Message}");
+}
+await context.Seed();
 
 app.Run();

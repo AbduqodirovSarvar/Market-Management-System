@@ -23,6 +23,7 @@ namespace Application.Abstractions.Interfaces
         DbSet<Region> Regions { get; set; }
         DbSet<Stock> Stocks { get; set; }
         DbSet<Street> Streets { get; set; }
+        DbSet<UserRole> Roles { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

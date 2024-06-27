@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Interfaces;
+using Application.Extentions;
 using Infrastructure.Models;
 using Infrastructure.Persistance.EntityFramework;
 using Infrastructure.Services;
@@ -20,6 +21,8 @@ namespace Infrastructure.Extentions
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddApplication();
+
             services.AddScoped<IAppDbContext, AppDbContext>();
             services.AddScoped<IHashService, HashService>();
             services.AddScoped<ITokenService, TokenService>();
@@ -49,22 +52,7 @@ namespace Infrastructure.Extentions
 
             services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
 
-            var secretWord = configuration["JwtOptions:Secret"] ?? "JwtOptions:Secret";
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidAudience = configuration["JWTConfiguration:ValidAudience"],
-                        ValidIssuer = configuration["JWTConfiguration:ValidIssuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretWord))
-                    };
-                });
+            
             services.AddAuthorization();
 
             return services;

@@ -2,6 +2,7 @@
 using Domain.Abstractions;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace Infrastructure.Persistance.EntityFramework
         public DbSet<Region> Regions { get; set; }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<Street> Streets { get; set; }
+        public DbSet<UserRole> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -66,7 +68,29 @@ namespace Infrastructure.Persistance.EntityFramework
 
         public async Task Seed()
         {
+            using var _context = this.GetService<AppDbContext>();
 
+            _context.MeasureOfTypes.AddRange(DefaultInformations.DefaultMeasureOfTypeData.DefaultMeasureOfTypes);
+            _context.Countries.AddRange(DefaultInformations.DefaultCountryData.DefaultCountries);
+            _context.Roles.AddRange(DefaultInformations.DefaultUserRoleData.DefaultUserRoles);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            _context.Regions.AddRange(DefaultInformations.DefaultRegionData.DefaultRegions);
+            _context.Users.Add(DefaultInformations.DefautUserData.DefaultUser);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
     }
 }
