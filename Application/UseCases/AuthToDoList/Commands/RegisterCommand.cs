@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.UseCases.Auth.Commands
+namespace Application.UseCases.AuthToDoList.Commands
 {
     public class RegisterCommand : IRequest<UserViewModel>
     {

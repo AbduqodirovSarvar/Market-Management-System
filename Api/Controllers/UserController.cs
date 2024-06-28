@@ -13,8 +13,8 @@ namespace Api.Controllers
     {
         private readonly IMediator _mediator = mediator;
 
-        [HttpGet("by-phone")]
-        public async Task<IActionResult> GetByPhone([FromQuery] GetUserByPhoneNumberQuery query)
+        [HttpGet]
+        public async Task<IActionResult> GetByPhone([FromQuery] GetUserQuery query)
         {
             try
             {
@@ -26,5 +26,17 @@ namespace Api.Controllers
             }
         }
 
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll([FromQuery] GetAllUserQuery query)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
