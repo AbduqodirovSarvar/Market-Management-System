@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain.Entities;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,6 +17,10 @@ namespace Application.Models.ViewModels
         public string? Email { get; set; }
         public string Phone { get; set; } = null!;
         public EnumViewModel Gender { get; set; } = null!;
+        public Guid RoleId { get; set; }
+        public UserRole? Role { get; set; }
+        public Guid OrganizationId { get; set; }
+        public Organization? Organization { get; set; }
         public Guid CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
     }

@@ -10,6 +10,7 @@ namespace Infrastructure.Persistance.DefaultInformations;
 public static class DefaultRegionData
 {
     public static readonly List<Region> DefaultRegions = [
+        new Region { NameUz = "Toshkent-shahar", NameEn = "Tashkent-city", NameRu = "Ташкент-город", CountryId = DefaultCountryData.DefaultCountries[0].Id },
         new Region { NameUz = "Toshkent", NameEn = "Tashkent", NameRu = "Ташкент", CountryId = DefaultCountryData.DefaultCountries[0].Id },
         new Region { NameUz = "Samarqand", NameEn = "Samarkand", NameRu = "Самарканд", CountryId = DefaultCountryData.DefaultCountries[0].Id },
         new Region { NameUz = "Buxoro", NameEn = "Bukhara", NameRu = "Бухара", CountryId = DefaultCountryData.DefaultCountries[0].Id },

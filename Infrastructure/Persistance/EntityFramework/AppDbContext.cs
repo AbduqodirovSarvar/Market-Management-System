@@ -4,18 +4,13 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Persistance.EntityFramework
 {
-    public class AppDbContext(
-        DbContextOptions<AppDbContext> options,
-        ICurrentUserService currentUserService
-        ) : DbContext(options), IAppDbContext
+    public class AppDbContext(DbContextOptions<AppDbContext> options, ICurrentUserService currentUserService) : DbContext(options), IAppDbContext
     {
         private readonly ICurrentUserService _currentUserService = currentUserService;
 
@@ -38,7 +33,6 @@ namespace Infrastructure.Persistance.EntityFramework
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -59,37 +53,84 @@ namespace Infrastructure.Persistance.EntityFramework
             {
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.Id = Guid.NewGuid();
+                    //entry.Entity.Id = Guid.NewGuid();
                     entry.Entity.CreatedBy = _currentUserService.UserId;
                     entry.Entity.CreatedAt = DateTime.UtcNow;
                 }
             }
         }
 
-        public async Task Seed()
+        public async Task SeedAsync()
         {
             using var _context = this.GetService<AppDbContext>();
 
-            _context.MeasureOfTypes.AddRange(DefaultInformations.DefaultMeasureOfTypeData.DefaultMeasureOfTypes);
-            _context.Countries.AddRange(DefaultInformations.DefaultCountryData.DefaultCountries);
-            _context.Roles.AddRange(DefaultInformations.DefaultUserRoleData.DefaultUserRoles);
             try
             {
+                _context.MeasureOfTypes.AddRange(DefaultInformations.DefaultMeasureOfTypeData.DefaultMeasureOfTypes);
+                _context.Countries.AddRange(DefaultInformations.DefaultCountryData.DefaultCountries);
+                _context.Roles.AddRange(DefaultInformations.DefaultUserRoleData.DefaultUserRoles);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine($"Error seeding initial data: {ex}");
             }
-            _context.Regions.AddRange(DefaultInformations.DefaultRegionData.DefaultRegions);
-            _context.Users.Add(DefaultInformations.DefautUserData.DefaultUser);
+
             try
             {
+                _context.Regions.AddRange(DefaultInformations.DefaultRegionData.DefaultRegions);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine($"Error seeding additional data: {ex}");
+            }
+
+            try
+            {
+                _context.Districts.AddRange(DefaultInformations.DefaultDistrictData.DefaultDistricts);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString());
+            }
+            try
+            {
+                _context.Streets.AddRange(DefaultInformations.DefaultStreetData.DefaultStreets);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString());
+            }
+            try
+            {
+                _context.Addresses.Add(DefaultInformations.DefaultAddressData.DefaultAddress);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString());
+            }
+
+            try
+            {
+                _context.Organizations.Add(DefaultInformations.DefaultOrganizationData.DefaultOrganization);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString());
+            }
+            try
+            {
+                _context.Users.Add(DefaultInformations.DefautUserData.DefaultUser);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString());
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Interfaces;
 using Application.Extentions;
 using Infrastructure.Models;
+using Infrastructure.Persistance.DefaultInformations;
 using Infrastructure.Persistance.EntityFramework;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -52,7 +53,10 @@ namespace Infrastructure.Extentions
 
             services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
 
-            
+            using var serviceProvider = services.BuildServiceProvider();
+            var hashService = serviceProvider.GetRequiredService<IHashService>();
+            DefautUserData.Initialize(hashService);
+
             services.AddAuthorization();
 
             return services;

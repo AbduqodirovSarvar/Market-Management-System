@@ -27,7 +27,14 @@ namespace Application.UseCases.Auth.Commands
 
         public async Task<LoginViewModel> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Phone == request.Phone, cancellationToken)
+            var user = await _context.Users
+                                     .Include(x => x.Organization).ThenInclude(x => x.Address)
+                                                                  .ThenInclude(x => x.Street)
+                                                                  .ThenInclude(x => x.District)
+                                                                  .ThenInclude(x => x.Region)
+                                                                  .ThenInclude(x => x.Country)
+                                     .Include(x => x.Role)
+                                     .FirstOrDefaultAsync(x => x.Phone == request.Phone, cancellationToken)
                                             ?? throw new NotFoundException();
 
             if (!_hashService.VerifyHash(request.Password, user.PasswordHash))
