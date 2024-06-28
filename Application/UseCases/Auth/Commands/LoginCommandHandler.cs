@@ -45,8 +45,20 @@ namespace Application.UseCases.Auth.Commands
             var claims = new List<Claim>
             {
                 new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new(ClaimTypes.Role, user.RoleId.ToString())
             };
+
+            var superAdmin = await _context.Roles.FirstOrDefaultAsync(x => x.NameEn == "SuperAdmin" && x.NameUz == "SuperAdmin" && x.NameRu == "СуперАдмин", cancellationToken);
+
+            if (user.RoleId == superAdmin!.Id)
+            {
+                foreach (var id in _context.Roles.Select(x => x.Id))
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, id.ToString()));
+                }
+            }
+            else {
+                claims.Add(new Claim(ClaimTypes.Role, user.RoleId.ToString()));
+            }
 
             return new LoginViewModel()
             {

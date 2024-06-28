@@ -14,7 +14,7 @@ public static class DefaultUserRoleData
             {
                 NameEn = "SuperAdmin",
                 NameUz = "SuperAdmin",
-                NameRu = "SuperAdmin",
+                NameRu = "СуперАдмин",
                 DescriptionEn = "Super administrator role with elevated permissions",
                 DescriptionUz = "Oshiruvchi ruxsatga ega super administrator roli",
                 DescriptionRu = "Роль супер администратора с расширенными правами"
@@ -23,7 +23,7 @@ public static class DefaultUserRoleData
             {
                 NameEn = "Admin",
                 NameUz = "Admin",
-                NameRu = "Admin",
+                NameRu = "Админ",
                 DescriptionEn = "Administrator role with full permissions",
                 DescriptionUz = "To'liq ruxsatga ega administrator roli",
                 DescriptionRu = "Роль администратора с полными правами"

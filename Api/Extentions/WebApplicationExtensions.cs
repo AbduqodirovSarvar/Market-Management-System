@@ -1,4 +1,5 @@
 ﻿using Api.Extentions;
+using Infrastructure.Persistance.DefaultInformations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -26,7 +27,7 @@ namespace Application.Extentions
             {
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ClockSkew = TimeSpan.FromMinutes(60),
+                    ClockSkew = TimeSpan.FromDays(1),
                     ValidateLifetime = true,
                     ValidateAudience = true,
                     ValidateIssuer = true,
@@ -40,7 +41,7 @@ namespace Application.Extentions
                 {
                     OnAuthenticationFailed = context =>
                     {
-                        Console.WriteLine(context.Exception); // Log the exception
+                        Console.WriteLine(context.Exception);
                         return Task.CompletedTask;
                     }
                 };
@@ -48,11 +49,11 @@ namespace Application.Extentions
             builder.Services.AddAuthorizationBuilder()
                 .AddPolicy("SuperAdminActions", policy =>
                 {
-                    policy.RequireClaim(ClaimTypes.Role, "SuperAdmin");
+                    policy.RequireClaim(ClaimTypes.Role, DefaultUserRoleData.DefaultUserRoles[0].Id.ToString());
                 })
                 .AddPolicy("AdminActions", policy =>
                 {
-                    policy.RequireClaim(ClaimTypes.Role, "Admin");
+                    policy.RequireClaim(ClaimTypes.Role, DefaultUserRoleData.DefaultUserRoles[1].Id.ToString());
                 });
 
             builder.Services.AddCors(o => o.AddPolicy("AddCors", builder =>

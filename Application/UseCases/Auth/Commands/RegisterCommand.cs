@@ -27,5 +27,6 @@ namespace Application.UseCases.Auth.Commands
         [PasswordPropertyText]
         public string Password { get; set; } = null!;
         public Guid RoleId { get; set; }
+        public Guid OrganizationId { get; set; }
     }
 }
