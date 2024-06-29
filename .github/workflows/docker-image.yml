@@ -43,6 +43,6 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/mms-api:latest
-          docker stop api || true
-          docker rm api || true
-          docker run -d --name your-container-name -p 8080:8080 ${{ secrets.DOCKER_HUB_USERNAME }}/mms-api:latest
+          docker stop mms-api || true
+          docker rm mms-api || true
+          docker run -d --name mms-api -p 8080:8080 ${{ secrets.DOCKER_HUB_USERNAME }}/mms-api:latest
