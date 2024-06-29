@@ -1,4 +1,4 @@
-﻿using Application.UseCases.Auth.Commands;
+﻿using Application.UseCases.AuthToDoList.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

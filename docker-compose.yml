@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  web:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=postgresql;Database=MMS;Port=5432;User Id=postgres;Password=12345;Include Error Detail=true;
+    volumes:
+      - /root/Sarvar/DB:/app/DB
+      - /root/Sarvar/Files:/app/Files
+    ports:
+      - "8080:8080"
+    networks:
+      - web
+
+  db:
+    container_name: postgresql
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: MMS
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - web
+
+volumes:
+  postgres_data:
+
+networks:
+  web:
+    driver: bridge
