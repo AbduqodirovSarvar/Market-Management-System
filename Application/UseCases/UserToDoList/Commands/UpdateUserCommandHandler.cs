@@ -43,7 +43,7 @@ namespace Application.UseCases.UserToDoList.Commands
 
             if (request.OrganizationId != null || request.RoleId != null)
             {
-
+                
             }
             
             throw new NotImplementedException();
