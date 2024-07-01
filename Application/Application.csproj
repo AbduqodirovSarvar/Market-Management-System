@@ -10,11 +10,11 @@
     <Folder Include="Abstractions\Behaviours\" />
     <Folder Include="UseCases\AddressToDoList\" />
     <Folder Include="UseCases\InComeToDos\" />
-    <Folder Include="UseCases\RegionToDoList\" />
+    <Folder Include="UseCases\RoleToDos\Commands\" />
+    <Folder Include="UseCases\RoleToDos\Queries\" />
     <Folder Include="UseCases\StockToDos\" />
     <Folder Include="UseCases\OutComeToDos\" />
     <Folder Include="UseCases\ProductToDos\" />
-    <Folder Include="UseCases\RoleToDos\" />
   </ItemGroup>
 
   <ItemGroup>
