@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
 
 jobs:
   build:
@@ -29,6 +29,7 @@ jobs:
         context: .
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/mms-api:latest
+        file: ./Dockerfile # Ensure the correct path to the Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
