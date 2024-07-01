@@ -9,17 +9,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.UseCases.StreetToDoList.Commands
+namespace Application.UseCases.RoleToDoList.Commands
 {
-    public class UpdateStreetCommandHandler(
+    public class UpdateUserRoleCommandHandler(
         IAppDbContext appDbContext,
         ICurrentUserService currentUserService
-        ) : IRequestHandler<UpdateStreetCommand, Street>
+        ) : IRequestHandler<UpdateUserRoleCommand, UserRole>
     {
         private readonly IAppDbContext _context = appDbContext;
         private readonly ICurrentUserService _currentUserService = currentUserService;
 
-        public async Task<Street> Handle(UpdateStreetCommand request, CancellationToken cancellationToken)
+        public async Task<UserRole> Handle(UpdateUserRoleCommand request, CancellationToken cancellationToken)
         {
             var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == _currentUserService.UserId, cancellationToken)
                                                   ?? throw new Exception("Access denied");
@@ -31,24 +31,18 @@ namespace Application.UseCases.StreetToDoList.Commands
                 throw new Exception("Access denied");
             }
 
-            var street = await _context.Streets.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
-                                                  ?? throw new NotFoundException();
+            var userRole = await _context.Roles.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
+                                               ?? throw new NotFoundException();
 
-            if (request.DistrictId != null)
-            {
-                var district = await _context.Districts.FirstOrDefaultAsync(x => x.Id == request.DistrictId, cancellationToken)
-                                                      ?? throw new NotFoundException();
-
-                street.DistrictId = district.Id;
-            }
-
-            street.NameRu = request.NameRu ?? street.NameRu;
-            street.NameEn = request.NameEn ?? street.NameEn;
-            street.NameUz = request.NameUz ?? street.NameUz;
+            userRole.NameUz = request.NameUz ?? userRole.NameUz;
+            userRole.NameEn = request.NameEn ?? userRole.NameEn;
+            userRole.NameRu = request.NameRu ?? userRole.NameRu;
+            userRole.DescriptionEn = request.DescriptionEn ?? userRole.DescriptionEn;
+            userRole.DescriptionRu = request.DescriptionRu ?? userRole.DescriptionRu;
+            userRole.DescriptionUz = request.DescriptionUz ?? userRole.DescriptionUz;
 
             await _context.SaveChangesAsync(cancellationToken);
-
-            return street;
+            return userRole;
         }
     }
 }

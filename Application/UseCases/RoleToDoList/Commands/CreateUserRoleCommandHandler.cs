@@ -9,17 +9,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.UseCases.StreetToDoList.Commands
+namespace Application.UseCases.RoleToDoList.Commands
 {
-    public class UpdateStreetCommandHandler(
+    public class CreateUserRoleCommandHandler(
         IAppDbContext appDbContext,
         ICurrentUserService currentUserService
-        ) : IRequestHandler<UpdateStreetCommand, Street>
+        ) : IRequestHandler<CreateUserRoleCommand, UserRole>
     {
         private readonly IAppDbContext _context = appDbContext;
         private readonly ICurrentUserService _currentUserService = currentUserService;
 
-        public async Task<Street> Handle(UpdateStreetCommand request, CancellationToken cancellationToken)
+        public async Task<UserRole> Handle(CreateUserRoleCommand request, CancellationToken cancellationToken)
         {
             var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == _currentUserService.UserId, cancellationToken)
                                                   ?? throw new Exception("Access denied");
@@ -31,24 +31,28 @@ namespace Application.UseCases.StreetToDoList.Commands
                 throw new Exception("Access denied");
             }
 
-            var street = await _context.Streets.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
-                                                  ?? throw new NotFoundException();
+            var userRole = await _context.Roles.FirstOrDefaultAsync(x => x.NameEn == request.NameEn
+                                                                      && x.NameRu == request.NameRu
+                                                                      && x.NameUz == request.NameUz, cancellationToken);
 
-            if (request.DistrictId != null)
+            if (userRole != null)
             {
-                var district = await _context.Districts.FirstOrDefaultAsync(x => x.Id == request.DistrictId, cancellationToken)
-                                                      ?? throw new NotFoundException();
-
-                street.DistrictId = district.Id;
+                throw new AlreadyExistsException();
             }
 
-            street.NameRu = request.NameRu ?? street.NameRu;
-            street.NameEn = request.NameEn ?? street.NameEn;
-            street.NameUz = request.NameUz ?? street.NameUz;
+            userRole = new UserRole()
+            {
+                NameEn = request.NameEn,
+                NameRu = request.NameRu,
+                NameUz = request.NameUz,
+                DescriptionEn = request.DescriptionEn,
+                DescriptionRu = request.DescriptionRu,
+                DescriptionUz = request.DescriptionUz
+            };
 
+            await _context.Roles.AddAsync(userRole, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-
-            return street;
+            return userRole;
         }
     }
 }

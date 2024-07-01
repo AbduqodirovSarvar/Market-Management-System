@@ -7,12 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.UseCases.OrganizationToDoList.Commands
+namespace Application.UseCases.RoleToDoList.Commands
 {
-    public class CreateOrganizationCommand : IRequest<Organization>
+    public class CreateUserRoleCommand : IRequest<UserRole>
     {
-        [Required]
-        public Guid AddressId { get; set; }
         [Required]
         public string NameUz { get; set; } = null!;
         [Required]

@@ -9,17 +9,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.UseCases.StreetToDoList.Commands
+namespace Application.UseCases.OrganizationToDoList.Commands
 {
-    public class UpdateStreetCommandHandler(
+    public class UpdateOrganizationCommandHandler(
         IAppDbContext appDbContext,
         ICurrentUserService currentUserService
-        ) : IRequestHandler<UpdateStreetCommand, Street>
+        ) : IRequestHandler<UpdateOrganizationCommand, Organization>
     {
         private readonly IAppDbContext _context = appDbContext;
         private readonly ICurrentUserService _currentUserService = currentUserService;
 
-        public async Task<Street> Handle(UpdateStreetCommand request, CancellationToken cancellationToken)
+        public async Task<Organization> Handle(UpdateOrganizationCommand request, CancellationToken cancellationToken)
         {
             var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == _currentUserService.UserId, cancellationToken)
                                                   ?? throw new Exception("Access denied");
@@ -31,24 +31,27 @@ namespace Application.UseCases.StreetToDoList.Commands
                 throw new Exception("Access denied");
             }
 
-            var street = await _context.Streets.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
+            var organization = await _context.Organizations.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
                                                   ?? throw new NotFoundException();
 
-            if (request.DistrictId != null)
+            if (request.AddressId != null)
             {
-                var district = await _context.Districts.FirstOrDefaultAsync(x => x.Id == request.DistrictId, cancellationToken)
+                var address = await _context.Addresses.FirstOrDefaultAsync(x => x.Id == request.AddressId, cancellationToken)
                                                       ?? throw new NotFoundException();
 
-                street.DistrictId = district.Id;
+                organization.AddressId = address.Id;
             }
 
-            street.NameRu = request.NameRu ?? street.NameRu;
-            street.NameEn = request.NameEn ?? street.NameEn;
-            street.NameUz = request.NameUz ?? street.NameUz;
+            organization.NameRu = request.NameRu ?? organization.NameRu;
+            organization.NameEn = request.NameEn ?? organization.NameEn;
+            organization.NameUz = request.NameUz ?? organization.NameUz;
+            organization.DescriptionRu = request.DescriptionRu ?? organization.DescriptionRu;
+            organization.DescriptionEn = request.DescriptionEn ?? organization.DescriptionEn;
+            organization.DescriptionUz = request.DescriptionUz ?? organization.DescriptionUz;
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return street;
+            return organization;
         }
     }
 }
