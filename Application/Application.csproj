@@ -15,8 +15,6 @@
     <Folder Include="UseCases\StockToDoList\" />
     <Folder Include="UseCases\OutComeToDoList\" />
     <Folder Include="UseCases\ProductToDoList\" />
-    <Folder Include="UseCases\StreetToDoList\Commands\" />
-    <Folder Include="UseCases\StreetToDoList\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

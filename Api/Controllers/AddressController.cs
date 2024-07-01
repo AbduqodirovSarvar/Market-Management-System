@@ -4,6 +4,8 @@ using Application.UseCases.DistrictToDoList.Commands;
 using Application.UseCases.DistrictToDoList.Queries;
 using Application.UseCases.RegionToDoList.Commands;
 using Application.UseCases.RegionToDoList.Queries;
+using Application.UseCases.StreetToDoList.Commands;
+using Application.UseCases.StreetToDoList.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -209,6 +211,73 @@ namespace Api.Controllers
 
         [HttpDelete("district")]
         public async Task<IActionResult> DeleteDistrict(DeleteDistrictCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // Street
+
+        [HttpGet("street")]
+        public async Task<IActionResult> GetStreet([FromQuery] GetStreetQuery query)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("street/all")]
+        public async Task<IActionResult> GetAllStreet([FromQuery] GetAllStreetQuery query)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("street")]
+        public async Task<IActionResult> CreateStreet([FromBody] CreateStreetCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("street")]
+        public async Task<IActionResult> UpdateStreet([FromBody] UpdateStreetCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("street")]
+        public async Task<IActionResult> DeleteStreet(DeleteStreetCommand command)
         {
             try
             {
