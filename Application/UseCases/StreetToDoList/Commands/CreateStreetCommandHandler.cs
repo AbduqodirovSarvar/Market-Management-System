@@ -31,7 +31,7 @@ namespace Application.UseCases.StreetToDoList.Commands
                 throw new Exception("Access denied");
             }
 
-            var district = await _context.Countries.FirstOrDefaultAsync(x => x.Id == request.DistrictId, cancellationToken)
+            var district = await _context.Districts.FirstOrDefaultAsync(x => x.Id == request.DistrictId, cancellationToken)
                                                   ?? throw new NotFoundException();
 
             var street = await _context.Streets.FirstOrDefaultAsync(x => x.DistrictId == district.Id

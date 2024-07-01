@@ -1,4 +1,6 @@
-﻿using Application.UseCases.CountryToDoList.Commands;
+﻿using Application.UseCases.AddressToDoList.Commands;
+using Application.UseCases.AddressToDoList.Queries;
+using Application.UseCases.CountryToDoList.Commands;
 using Application.UseCases.CountryToDoList.Queries;
 using Application.UseCases.DistrictToDoList.Commands;
 using Application.UseCases.DistrictToDoList.Queries;
@@ -278,6 +280,73 @@ namespace Api.Controllers
 
         [HttpDelete("street")]
         public async Task<IActionResult> DeleteStreet(DeleteStreetCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // Address
+
+        [HttpGet]
+        public async Task<IActionResult> GetAddress([FromQuery] GetAddressQuery query)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllAddress([FromQuery] GetAllAddressQuery query)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAddress([FromBody] CreateAddressCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAddress([FromBody] UpdateAddressCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAddress(DeleteAddressCommand command)
         {
             try
             {
