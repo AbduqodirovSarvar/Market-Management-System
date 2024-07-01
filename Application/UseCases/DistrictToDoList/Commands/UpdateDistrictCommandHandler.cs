@@ -9,17 +9,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.UseCases.RegionToDoList.Commands
+namespace Application.UseCases.DistrictToDoList.Commands
 {
-    public class UpdateRegionCommandHandler(
+    public class UpdateDistrictCommandHandler(
         IAppDbContext appDbContext,
         ICurrentUserService currentUserService
-        ) : IRequestHandler<UpdateRegionCommand, Region>
+        ) : IRequestHandler<UpdateDistrictCommand, District>
     {
         private readonly IAppDbContext _context = appDbContext;
         private readonly ICurrentUserService _currentUserService = currentUserService;
 
-        public async Task<Region> Handle(UpdateRegionCommand request, CancellationToken cancellationToken)
+        public async Task<District> Handle(UpdateDistrictCommand request, CancellationToken cancellationToken)
         {
             var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == _currentUserService.UserId, cancellationToken)
                                                   ?? throw new Exception("Access denied");
@@ -31,24 +31,24 @@ namespace Application.UseCases.RegionToDoList.Commands
                 throw new Exception("Access denied");
             }
 
-            var region = await _context.Regions.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
+            var district = await _context.Districts.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
                                                   ?? throw new NotFoundException();
 
-            if(request.CountryId != null)
+            if (request.RegionId != null)
             {
-                var country = await _context.Countries.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
+                var region = await _context.Regions.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
                                                       ?? throw new NotFoundException();
 
-                region.CountryId = country.Id;
+                district.RegionId = region.Id;
             }
 
-            region.NameRu = request.NameRu ?? region.NameRu;
-            region.NameEn = request.NameEn ?? region.NameEn;
-            region.NameUz = request.NameUz ?? region.NameUz;
+            district.NameRu = request.NameRu ?? district.NameRu;
+            district.NameEn = request.NameEn ?? district.NameEn;
+            district.NameUz = request.NameUz ?? district.NameUz;
 
             await _context.SaveChangesAsync(cancellationToken);
-
-            return region;
+            
+            return district;
         }
     }
 }

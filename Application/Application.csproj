@@ -9,12 +9,14 @@
   <ItemGroup>
     <Folder Include="Abstractions\Behaviours\" />
     <Folder Include="UseCases\AddressToDoList\" />
-    <Folder Include="UseCases\InComeToDos\" />
-    <Folder Include="UseCases\RoleToDos\Commands\" />
-    <Folder Include="UseCases\RoleToDos\Queries\" />
-    <Folder Include="UseCases\StockToDos\" />
-    <Folder Include="UseCases\OutComeToDos\" />
-    <Folder Include="UseCases\ProductToDos\" />
+    <Folder Include="UseCases\InComeToDoList\" />
+    <Folder Include="UseCases\RoleToDoList\Commands\" />
+    <Folder Include="UseCases\RoleToDoList\Queries\" />
+    <Folder Include="UseCases\StockToDoList\" />
+    <Folder Include="UseCases\OutComeToDoList\" />
+    <Folder Include="UseCases\ProductToDoList\" />
+    <Folder Include="UseCases\StreetToDoList\Commands\" />
+    <Folder Include="UseCases\StreetToDoList\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

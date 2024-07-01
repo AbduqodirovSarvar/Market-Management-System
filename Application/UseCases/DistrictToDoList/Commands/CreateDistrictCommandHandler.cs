@@ -9,17 +9,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.UseCases.RegionToDoList.Commands
+namespace Application.UseCases.DistrictToDoList.Commands
 {
-    public class CreateRegionCommandHandler(
+    public class CreateDistrictCommandHandler(
         IAppDbContext appDbContext,
         ICurrentUserService currentUserService
-        ) : IRequestHandler<CreateRegionCommand, Region>
+        ) : IRequestHandler<CreateDistrictCommand, District>
     {
         private readonly IAppDbContext _context = appDbContext;
         private readonly ICurrentUserService _currentUserService = currentUserService;
 
-        public async Task<Region> Handle(CreateRegionCommand request, CancellationToken cancellationToken)
+        public async Task<District> Handle(CreateDistrictCommand request, CancellationToken cancellationToken)
         {
             var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == _currentUserService.UserId, cancellationToken)
                                                   ?? throw new Exception("Access denied");
@@ -31,31 +31,31 @@ namespace Application.UseCases.RegionToDoList.Commands
                 throw new Exception("Access denied");
             }
 
-            var country = await _context.Countries.FirstOrDefaultAsync(x => x.Id == request.CountryId, cancellationToken)
+            var region = await _context.Regions.FirstOrDefaultAsync(x => x.Id == request.RegionId, cancellationToken)
                                                   ?? throw new NotFoundException();
 
-            var region = await _context.Regions.FirstOrDefaultAsync(x => x.CountryId == country.Id 
+            var district = await _context.Districts.FirstOrDefaultAsync(x => x.RegionId == region.Id
                                                                       && x.NameEn == request.NameEn
-                                                                      && x.NameRu == request.NameRu 
+                                                                      && x.NameRu == request.NameRu
                                                                       && x.NameUz == request.NameUz, cancellationToken);
 
-            if (region != null)
+            if (district != null)
             {
                 throw new AlreadyExistsException();
             }
 
-            region = new Region()
+            district = new District()
             {
-                CountryId = country.Id,
+                RegionId = region.Id,
                 NameEn = request.NameEn,
                 NameUz = request.NameUz,
                 NameRu = request.NameRu
             };
 
-            await _context.Regions.AddAsync(region, cancellationToken);
+            await _context.Districts.AddAsync(district, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return region;
+            return district;
         }
     }
 }

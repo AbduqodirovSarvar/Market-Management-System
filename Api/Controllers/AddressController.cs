@@ -1,5 +1,7 @@
 ﻿using Application.UseCases.CountryToDoList.Commands;
 using Application.UseCases.CountryToDoList.Queries;
+using Application.UseCases.DistrictToDoList.Commands;
+using Application.UseCases.DistrictToDoList.Queries;
 using Application.UseCases.RegionToDoList.Commands;
 using Application.UseCases.RegionToDoList.Queries;
 using MediatR;
@@ -152,5 +154,70 @@ namespace Api.Controllers
         }
 
         // District
+
+        [HttpGet("district")]
+        public async Task<IActionResult> GetDistrict([FromQuery] GetDistrictQuery query)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("district/all")]
+        public async Task<IActionResult> GetAllDistrict([FromQuery] GetAllDistrictQuery query)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("district")]
+        public async Task<IActionResult> CreateDistrict([FromBody] CreateDistrictCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("district")]
+        public async Task<IActionResult> UpdateDistrict([FromBody] UpdateDistrictCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("district")]
+        public async Task<IActionResult> DeleteDistrict(DeleteDistrictCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
