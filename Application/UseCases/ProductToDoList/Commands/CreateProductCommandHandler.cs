@@ -29,9 +29,12 @@ namespace Application.UseCases.ProductToDoList.Commands
                 throw new AlreadyExistsException();
             }
 
+            var productType = await _context.ProductTypes.FirstOrDefaultAsync(x => x.Id == request.ProductTypeId, cancellationToken)
+                                                         ?? throw new NotFoundException();
+
             product = new Product()
             {
-                ProductTypeId = request.ProductTypeId,
+                ProductTypeId = productType.Id,
                 NameEn = request.NameEn,
                 NameRu = request.NameRu,
                 NameUz = request.NameUz,

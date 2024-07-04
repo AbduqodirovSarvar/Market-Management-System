@@ -19,17 +19,31 @@ namespace Application.UseCases.ProductTypeToDoList.Commands
 
         public async Task<ProductType> Handle(CreateProductTypeCommand request, CancellationToken cancellationToken)
         {
-            var productTtype = await _context.ProductTypes.FirstOrDefaultAsync(x => x.NameEn == request.NameEn
+            var productType = await _context.ProductTypes.FirstOrDefaultAsync(x => x.NameEn == request.NameEn
                                                                                  && x.NameRu == request.NameRu
                                                                                  && x.NameUz == request.NameUz, cancellationToken);
 
-            if (productTtype != null)
+            if (productType != null)
             {
                 throw new AlreadyExistsException();
             }
 
+            var measureOfType = await _context.MeasureOfTypes.FirstOrDefaultAsync(x => x.Id == request.MeasureOfTypeId, cancellationToken)
+                                           ?? throw new NotFoundException();
 
-            throw new NotImplementedException();
+            productType = new ProductType()
+            {
+                MeasureOfTypeId = measureOfType.Id,
+                NameEn = request.NameEn,
+                NameRu = request.NameRu,
+                NameUz = request.NameUz,
+                DescriptionEn = request.DescriptionEn,
+                DescriptionRu = request.DescriptionRu,
+                DescriptionUz = request.DescriptionUz
+            };
+
+            await _context.ProductTypes.AddAsync(productType, cancellationToken);
+            return productType;
         }
     }
 }
