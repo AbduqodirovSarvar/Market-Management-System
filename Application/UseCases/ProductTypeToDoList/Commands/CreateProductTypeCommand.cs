@@ -10,12 +10,12 @@ namespace Application.UseCases.ProductTypeToDoList.Commands
 {
     public class CreateProductTypeCommand : IRequest<ProductType>
     {
-        public string NameUz { get; set; } = string.Empty;
-        public string NameEn { get; set; } = string.Empty;
-        public string NameRu { get; set; } = string.Empty;
-        public string DescriptionUz { get; set; } = string.Empty;
-        public string DescriptionEn { get; set; } = string.Empty;
-        public string DescriptionRu { get; set; } = string.Empty;
+        public string NameUz { get; set; } = null!;
+        public string NameEn { get; set; } = null!;
+        public string NameRu { get; set; } = null!;
+        public string DescriptionUz { get; set; } = null!;
+        public string DescriptionEn { get; set; } = null!;
+        public string DescriptionRu { get; set; } = null!;
         public Guid MeasureOfTypeId { get; set; }
     }
 }

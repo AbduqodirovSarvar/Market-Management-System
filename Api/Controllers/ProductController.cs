@@ -33,7 +33,7 @@ namespace Api.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAll([FromQuery] GetAllProductQuery query)
         {
             try
