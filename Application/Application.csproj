@@ -9,8 +9,11 @@
   <ItemGroup>
     <Folder Include="Abstractions\Behaviours\" />
     <Folder Include="UseCases\InComeToDoList\Commands\" />
+    <Folder Include="UseCases\InComeToDoList\Queries\" />
     <Folder Include="UseCases\OutComeToDoList\Commands\" />
+    <Folder Include="UseCases\OutComeToDoList\Queries\" />
     <Folder Include="UseCases\StockToDoList\Commands\" />
+    <Folder Include="UseCases\StockToDoList\Queries\" />
   </ItemGroup>
 
   <ItemGroup>
