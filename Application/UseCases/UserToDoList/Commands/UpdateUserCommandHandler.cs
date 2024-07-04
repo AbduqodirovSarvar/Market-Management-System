@@ -15,12 +15,14 @@ namespace Application.UseCases.UserToDoList.Commands
     public class UpdateUserCommandHandler(
         IAppDbContext appDbContext,
         IMapper mapper,
-        ICurrentUserService currentUserService
+        ICurrentUserService currentUserService,
+        IHashService hashService
         ) : IRequestHandler<UpdateUserCommand, UserViewModel>
     {
         private readonly IAppDbContext _context = appDbContext;
         private readonly IMapper _mapper = mapper;
         private readonly ICurrentUserService _currentUserService = currentUserService;
+        private readonly IHashService _hashService = hashService;
 
         public async Task<UserViewModel> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
@@ -41,12 +43,31 @@ namespace Application.UseCases.UserToDoList.Commands
                 throw new Exception("Access denied");
             }
 
-            if (request.OrganizationId != null || request.RoleId != null)
+            if ((request.OrganizationId != null || request.RoleId != null) && currentUser.RoleId != superAdmin!.Id)
             {
-                
+                throw new Exception("Access denied");
             }
-            
-            throw new NotImplementedException();
+
+            if (request.NewPassword != null && request.NewPassword != request.ConfirmPassword
+                && (request.OldPassword != null && !_hashService.VerifyHash(request.OldPassword, user.PasswordHash)))
+            {
+                throw new ArgumentException("Password incorrect");
+            }
+            else if(request.NewPassword != null)
+            {
+                user.PasswordHash = _hashService.GetHash(request.NewPassword);
+            }
+
+            user.FirstName = request.FirstName ?? user.FirstName;
+            user.LastName = request.LastName ?? user.LastName;
+            user.Phone = request.Phone ?? user.Phone;
+            user.Email = request.Email ?? user.Email;
+            user.RoleId = request.RoleId ?? user.RoleId;
+            user.OrganizationId = request.OrganizationId ?? user.OrganizationId;
+            user.Gender = request.Gender ?? user.Gender;
+
+            await _context.SaveChangesAsync(cancellationToken);
+            return _mapper.Map<UserViewModel>(user);
         }
     }
 }

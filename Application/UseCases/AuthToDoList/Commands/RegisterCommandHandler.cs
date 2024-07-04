@@ -45,8 +45,8 @@ namespace Application.UseCases.AuthToDoList.Commands
             }
 
             if (currentUser.RoleId == superAdmin.Id) {
-            } 
-            if (currentUser.RoleId == admin.Id) {
+            }
+            else if (currentUser.RoleId == admin.Id) {
                 if (request.OrganizationId != currentUser.OrganizationId) {
                     throw new Exception("Access denied");
                 }
