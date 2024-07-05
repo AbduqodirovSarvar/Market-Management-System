@@ -16,7 +16,9 @@ namespace Infrastructure.Persistance.EntityFramework.Abstractions
             builder.Property(a => a.NameRu).HasMaxLength(256);
             builder.Property(a => a.NameUz).HasMaxLength(256);
             builder.Property(a => a.NameEn).HasMaxLength(256);
-            builder.HasIndex(x => new { x.NameRu, x.NameUz, x.NameEn }).IsUnique();
+            builder.HasIndex(x => x.NameRu).IsUnique();
+            builder.HasIndex(x => x.NameUz).IsUnique();
+            builder.HasIndex(x => x.NameEn).IsUnique();
         }
     }
 }

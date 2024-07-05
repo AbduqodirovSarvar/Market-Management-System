@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240628073120_Initial")]
+    [Migration("20240705111051_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -97,7 +97,13 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NameRu", "NameUz", "NameEn")
+                    b.HasIndex("NameEn")
+                        .IsUnique();
+
+                    b.HasIndex("NameRu")
+                        .IsUnique();
+
+                    b.HasIndex("NameUz")
                         .IsUnique();
 
                     b.ToTable("Countries");
@@ -141,12 +147,24 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RegionId");
-
-                    b.HasIndex("NameRu", "NameUz", "NameEn")
+                    b.HasIndex("NameEn")
                         .IsUnique();
 
-                    b.HasIndex("NameEn", "NameUz", "NameRu", "RegionId")
+                    b.HasIndex("NameRu")
+                        .IsUnique();
+
+                    b.HasIndex("NameUz")
+                        .IsUnique();
+
+                    b.HasIndex("RegionId");
+
+                    b.HasIndex("NameEn", "RegionId")
+                        .IsUnique();
+
+                    b.HasIndex("NameRu", "RegionId")
+                        .IsUnique();
+
+                    b.HasIndex("NameUz", "RegionId")
                         .IsUnique();
 
                     b.ToTable("Districts");
@@ -184,6 +202,10 @@ namespace Infrastructure.Migrations
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("QrCodeFileName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -241,7 +263,13 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NameRu", "NameUz", "NameEn")
+                    b.HasIndex("NameEn")
+                        .IsUnique();
+
+                    b.HasIndex("NameRu")
+                        .IsUnique();
+
+                    b.HasIndex("NameUz")
                         .IsUnique();
 
                     b.ToTable("MeasureOfTypes");
@@ -297,10 +325,22 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NameRu", "NameUz", "NameEn")
+                    b.HasIndex("NameEn")
                         .IsUnique();
 
-                    b.HasIndex("AddressId", "NameEn", "NameUz", "NameRu")
+                    b.HasIndex("NameRu")
+                        .IsUnique();
+
+                    b.HasIndex("NameUz")
+                        .IsUnique();
+
+                    b.HasIndex("AddressId", "NameEn")
+                        .IsUnique();
+
+                    b.HasIndex("AddressId", "NameRu")
+                        .IsUnique();
+
+                    b.HasIndex("AddressId", "NameUz")
                         .IsUnique();
 
                     b.ToTable("Organizations");
@@ -398,15 +438,64 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductTypeId");
-
-                    b.HasIndex("NameRu", "NameUz", "NameEn")
+                    b.HasIndex("NameEn")
                         .IsUnique();
 
-                    b.HasIndex("NameEn", "NameUz", "NameRu", "ProductTypeId")
+                    b.HasIndex("NameRu")
+                        .IsUnique();
+
+                    b.HasIndex("NameUz")
+                        .IsUnique();
+
+                    b.HasIndex("ProductTypeId");
+
+                    b.HasIndex("NameEn", "ProductTypeId")
+                        .IsUnique();
+
+                    b.HasIndex("NameRu", "ProductTypeId")
+                        .IsUnique();
+
+                    b.HasIndex("NameUz", "ProductTypeId")
                         .IsUnique();
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductPrice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("ProductId", "OrganizationId")
+                        .IsUnique();
+
+                    b.ToTable("Prices");
                 });
 
             modelBuilder.Entity("Domain.Entities.ProductType", b =>
@@ -461,10 +550,22 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("MeasureOfTypeId");
 
-                    b.HasIndex("NameRu", "NameUz", "NameEn")
+                    b.HasIndex("NameEn")
                         .IsUnique();
 
-                    b.HasIndex("NameRu", "NameUz", "NameEn", "MeasureOfTypeId")
+                    b.HasIndex("NameRu")
+                        .IsUnique();
+
+                    b.HasIndex("NameUz")
+                        .IsUnique();
+
+                    b.HasIndex("NameEn", "MeasureOfTypeId")
+                        .IsUnique();
+
+                    b.HasIndex("NameRu", "MeasureOfTypeId")
+                        .IsUnique();
+
+                    b.HasIndex("NameUz", "MeasureOfTypeId")
                         .IsUnique();
 
                     b.ToTable("ProductTypes");
@@ -510,53 +611,25 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.HasIndex("NameRu", "NameUz", "NameEn")
+                    b.HasIndex("NameEn")
                         .IsUnique();
 
-                    b.HasIndex("NameEn", "NameUz", "NameRu", "CountryId")
+                    b.HasIndex("NameRu")
+                        .IsUnique();
+
+                    b.HasIndex("NameUz")
+                        .IsUnique();
+
+                    b.HasIndex("NameEn", "CountryId")
+                        .IsUnique();
+
+                    b.HasIndex("NameRu", "CountryId")
+                        .IsUnique();
+
+                    b.HasIndex("NameUz", "CountryId")
                         .IsUnique();
 
                     b.ToTable("Regions");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Stock", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("DeletedTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid>("OrganizationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrganizationId");
-
-                    b.HasIndex("ProductId", "OrganizationId")
-                        .IsUnique();
-
-                    b.ToTable("Stocks");
                 });
 
             modelBuilder.Entity("Domain.Entities.Street", b =>
@@ -599,10 +672,22 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("DistrictId");
 
-                    b.HasIndex("NameRu", "NameUz", "NameEn")
+                    b.HasIndex("NameEn")
                         .IsUnique();
 
-                    b.HasIndex("NameUz", "NameRu", "NameEn", "DistrictId")
+                    b.HasIndex("NameRu")
+                        .IsUnique();
+
+                    b.HasIndex("NameUz")
+                        .IsUnique();
+
+                    b.HasIndex("NameEn", "DistrictId")
+                        .IsUnique();
+
+                    b.HasIndex("NameRu", "DistrictId")
+                        .IsUnique();
+
+                    b.HasIndex("NameUz", "DistrictId")
                         .IsUnique();
 
                     b.ToTable("Streets");
@@ -713,10 +798,13 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NameEn", "NameUz", "NameRu")
+                    b.HasIndex("NameEn")
                         .IsUnique();
 
-                    b.HasIndex("NameRu", "NameUz", "NameEn")
+                    b.HasIndex("NameRu")
+                        .IsUnique();
+
+                    b.HasIndex("NameUz")
                         .IsUnique();
 
                     b.ToTable("Roles");
@@ -804,6 +892,25 @@ namespace Infrastructure.Migrations
                     b.Navigation("ProductType");
                 });
 
+            modelBuilder.Entity("Domain.Entities.ProductPrice", b =>
+                {
+                    b.HasOne("Domain.Entities.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Organization");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Domain.Entities.ProductType", b =>
                 {
                     b.HasOne("Domain.Entities.MeasureOfType", "MeasureOfType")
@@ -824,25 +931,6 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Country");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Stock", b =>
-                {
-                    b.HasOne("Domain.Entities.Organization", "Organization")
-                        .WithMany()
-                        .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Organization");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Domain.Entities.Street", b =>

@@ -265,6 +265,7 @@ namespace Infrastructure.Migrations
                     Amount = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     ExpirationAt = table.Column<DateOnly>(type: "date", nullable: false),
+                    QrCodeFileName = table.Column<string>(type: "text", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
@@ -319,13 +320,12 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Stocks",
+                name: "Prices",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     OrganizationId = table.Column<Guid>(type: "uuid", nullable: false),
                     ProductId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Amount = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -334,15 +334,15 @@ namespace Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Stocks", x => x.Id);
+                    table.PrimaryKey("PK_Prices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Stocks_Organizations_OrganizationId",
+                        name: "FK_Prices_Organizations_OrganizationId",
                         column: x => x.OrganizationId,
                         principalTable: "Organizations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Stocks_Products_ProductId",
+                        name: "FK_Prices_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -391,21 +391,57 @@ namespace Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Countries_NameRu_NameUz_NameEn",
+                name: "IX_Countries_NameEn",
                 table: "Countries",
-                columns: new[] { "NameRu", "NameUz", "NameEn" },
+                column: "NameEn",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Districts_NameEn_NameUz_NameRu_RegionId",
-                table: "Districts",
-                columns: new[] { "NameEn", "NameUz", "NameRu", "RegionId" },
+                name: "IX_Countries_NameRu",
+                table: "Countries",
+                column: "NameRu",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Districts_NameRu_NameUz_NameEn",
+                name: "IX_Countries_NameUz",
+                table: "Countries",
+                column: "NameUz",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Districts_NameEn",
                 table: "Districts",
-                columns: new[] { "NameRu", "NameUz", "NameEn" },
+                column: "NameEn",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Districts_NameEn_RegionId",
+                table: "Districts",
+                columns: new[] { "NameEn", "RegionId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Districts_NameRu",
+                table: "Districts",
+                column: "NameRu",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Districts_NameRu_RegionId",
+                table: "Districts",
+                columns: new[] { "NameRu", "RegionId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Districts_NameUz",
+                table: "Districts",
+                column: "NameUz",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Districts_NameUz_RegionId",
+                table: "Districts",
+                columns: new[] { "NameUz", "RegionId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -424,21 +460,57 @@ namespace Infrastructure.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MeasureOfTypes_NameRu_NameUz_NameEn",
+                name: "IX_MeasureOfTypes_NameEn",
                 table: "MeasureOfTypes",
-                columns: new[] { "NameRu", "NameUz", "NameEn" },
+                column: "NameEn",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Organizations_AddressId_NameEn_NameUz_NameRu",
-                table: "Organizations",
-                columns: new[] { "AddressId", "NameEn", "NameUz", "NameRu" },
+                name: "IX_MeasureOfTypes_NameRu",
+                table: "MeasureOfTypes",
+                column: "NameRu",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Organizations_NameRu_NameUz_NameEn",
+                name: "IX_MeasureOfTypes_NameUz",
+                table: "MeasureOfTypes",
+                column: "NameUz",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Organizations_AddressId_NameEn",
                 table: "Organizations",
-                columns: new[] { "NameRu", "NameUz", "NameEn" },
+                columns: new[] { "AddressId", "NameEn" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Organizations_AddressId_NameRu",
+                table: "Organizations",
+                columns: new[] { "AddressId", "NameRu" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Organizations_AddressId_NameUz",
+                table: "Organizations",
+                columns: new[] { "AddressId", "NameUz" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Organizations_NameEn",
+                table: "Organizations",
+                column: "NameEn",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Organizations_NameRu",
+                table: "Organizations",
+                column: "NameRu",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Organizations_NameUz",
+                table: "Organizations",
+                column: "NameUz",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -452,15 +524,50 @@ namespace Infrastructure.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_NameEn_NameUz_NameRu_ProductTypeId",
-                table: "Products",
-                columns: new[] { "NameEn", "NameUz", "NameRu", "ProductTypeId" },
+                name: "IX_Prices_OrganizationId",
+                table: "Prices",
+                column: "OrganizationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Prices_ProductId_OrganizationId",
+                table: "Prices",
+                columns: new[] { "ProductId", "OrganizationId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_NameRu_NameUz_NameEn",
+                name: "IX_Products_NameEn",
                 table: "Products",
-                columns: new[] { "NameRu", "NameUz", "NameEn" },
+                column: "NameEn",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_NameEn_ProductTypeId",
+                table: "Products",
+                columns: new[] { "NameEn", "ProductTypeId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_NameRu",
+                table: "Products",
+                column: "NameRu",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_NameRu_ProductTypeId",
+                table: "Products",
+                columns: new[] { "NameRu", "ProductTypeId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_NameUz",
+                table: "Products",
+                column: "NameUz",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_NameUz_ProductTypeId",
+                table: "Products",
+                columns: new[] { "NameUz", "ProductTypeId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -474,15 +581,39 @@ namespace Infrastructure.Migrations
                 column: "MeasureOfTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductTypes_NameRu_NameUz_NameEn",
+                name: "IX_ProductTypes_NameEn",
                 table: "ProductTypes",
-                columns: new[] { "NameRu", "NameUz", "NameEn" },
+                column: "NameEn",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductTypes_NameRu_NameUz_NameEn_MeasureOfTypeId",
+                name: "IX_ProductTypes_NameEn_MeasureOfTypeId",
                 table: "ProductTypes",
-                columns: new[] { "NameRu", "NameUz", "NameEn", "MeasureOfTypeId" },
+                columns: new[] { "NameEn", "MeasureOfTypeId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductTypes_NameRu",
+                table: "ProductTypes",
+                column: "NameRu",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductTypes_NameRu_MeasureOfTypeId",
+                table: "ProductTypes",
+                columns: new[] { "NameRu", "MeasureOfTypeId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductTypes_NameUz",
+                table: "ProductTypes",
+                column: "NameUz",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductTypes_NameUz_MeasureOfTypeId",
+                table: "ProductTypes",
+                columns: new[] { "NameUz", "MeasureOfTypeId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -491,38 +622,57 @@ namespace Infrastructure.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Regions_NameEn_NameUz_NameRu_CountryId",
+                name: "IX_Regions_NameEn",
                 table: "Regions",
-                columns: new[] { "NameEn", "NameUz", "NameRu", "CountryId" },
+                column: "NameEn",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Regions_NameRu_NameUz_NameEn",
+                name: "IX_Regions_NameEn_CountryId",
                 table: "Regions",
-                columns: new[] { "NameRu", "NameUz", "NameEn" },
+                columns: new[] { "NameEn", "CountryId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Roles_NameEn_NameUz_NameRu",
+                name: "IX_Regions_NameRu",
+                table: "Regions",
+                column: "NameRu",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Regions_NameRu_CountryId",
+                table: "Regions",
+                columns: new[] { "NameRu", "CountryId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Regions_NameUz",
+                table: "Regions",
+                column: "NameUz",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Regions_NameUz_CountryId",
+                table: "Regions",
+                columns: new[] { "NameUz", "CountryId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Roles_NameEn",
                 table: "Roles",
-                columns: new[] { "NameEn", "NameUz", "NameRu" },
+                column: "NameEn",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Roles_NameRu_NameUz_NameEn",
+                name: "IX_Roles_NameRu",
                 table: "Roles",
-                columns: new[] { "NameRu", "NameUz", "NameEn" },
+                column: "NameRu",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Stocks_OrganizationId",
-                table: "Stocks",
-                column: "OrganizationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Stocks_ProductId_OrganizationId",
-                table: "Stocks",
-                columns: new[] { "ProductId", "OrganizationId" },
+                name: "IX_Roles_NameUz",
+                table: "Roles",
+                column: "NameUz",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -531,15 +681,39 @@ namespace Infrastructure.Migrations
                 column: "DistrictId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Streets_NameRu_NameUz_NameEn",
+                name: "IX_Streets_NameEn",
                 table: "Streets",
-                columns: new[] { "NameRu", "NameUz", "NameEn" },
+                column: "NameEn",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Streets_NameUz_NameRu_NameEn_DistrictId",
+                name: "IX_Streets_NameEn_DistrictId",
                 table: "Streets",
-                columns: new[] { "NameUz", "NameRu", "NameEn", "DistrictId" },
+                columns: new[] { "NameEn", "DistrictId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Streets_NameRu",
+                table: "Streets",
+                column: "NameRu",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Streets_NameRu_DistrictId",
+                table: "Streets",
+                columns: new[] { "NameRu", "DistrictId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Streets_NameUz",
+                table: "Streets",
+                column: "NameUz",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Streets_NameUz_DistrictId",
+                table: "Streets",
+                columns: new[] { "NameUz", "DistrictId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -569,7 +743,7 @@ namespace Infrastructure.Migrations
                 name: "Outcomes");
 
             migrationBuilder.DropTable(
-                name: "Stocks");
+                name: "Prices");
 
             migrationBuilder.DropTable(
                 name: "Users");

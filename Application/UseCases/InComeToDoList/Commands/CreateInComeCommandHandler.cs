@@ -32,7 +32,7 @@ namespace Application.UseCases.InComeToDoList.Commands
                                                  ?? throw new NotFoundException();
 
             if (request.Amount < 0 || request.ExpirationAt < new DateOnly(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day)
-                    || request.Price < 0) 
+                    || request.Price < 0)
             {
                 throw new ArgumentException("Argument error");
             }
@@ -48,6 +48,7 @@ namespace Application.UseCases.InComeToDoList.Commands
 
             var obj = new
             {
+                InComeId = inCome.Id,
                 OrganizationId = inCome.OrganizationId,
                 ProductId = inCome.ProductId,
                 ExpirationAt = inCome.ExpirationAt,

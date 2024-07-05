@@ -51,6 +51,7 @@ namespace Application.UseCases.InComeToDoList.Commands
 
             var obj = new
             {
+                InComeId = inCome.Id,
                 OrganizationId = inCome.OrganizationId,
                 ProductId = inCome.ProductId,
                 ExpirationAt = inCome.ExpirationAt,

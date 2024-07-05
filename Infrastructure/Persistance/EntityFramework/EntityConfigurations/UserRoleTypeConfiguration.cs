@@ -14,7 +14,6 @@ namespace Infrastructure.Persistance.EntityFramework.EntityConfigurations
         public override void Configure(EntityTypeBuilder<UserRole> builder)
         {
             base.Configure(builder);
-            builder.HasIndex(x => new { x.NameEn, x.NameUz, x.NameRu }).IsUnique();
         }
     }
 }

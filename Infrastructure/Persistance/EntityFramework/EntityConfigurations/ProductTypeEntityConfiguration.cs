@@ -14,7 +14,9 @@ namespace Infrastructure.Persistance.EntityFramework.EntityConfigurations
         public override void Configure(EntityTypeBuilder<ProductType> builder)
         {
             base.Configure(builder);
-            builder.HasIndex(x => new { x.NameRu, x.NameUz, x.NameEn, x.MeasureOfTypeId }).IsUnique();
+            builder.HasIndex(x => new { x.NameRu, x.MeasureOfTypeId }).IsUnique();
+            builder.HasIndex(x => new { x.NameUz, x.MeasureOfTypeId }).IsUnique();
+            builder.HasIndex(x => new { x.NameEn, x.MeasureOfTypeId }).IsUnique();
             builder.HasOne(x => x.MeasureOfType).WithMany().HasForeignKey(x => x.MeasureOfTypeId);
         }
     }

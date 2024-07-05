@@ -14,7 +14,9 @@ namespace Infrastructure.Persistance.EntityFramework.EntityConfigurations
         public override void Configure(EntityTypeBuilder<District> builder)
         {
             base.Configure(builder);
-            builder.HasIndex(x => new { x.NameEn, x.NameUz, x.NameRu, x.RegionId }).IsUnique();
+            builder.HasIndex(x => new { x.NameEn, x.RegionId }).IsUnique();
+            builder.HasIndex(x => new { x.NameUz, x.RegionId}).IsUnique();
+            builder.HasIndex(x => new { x.NameRu, x.RegionId}).IsUnique();
             builder.HasOne(x => x.Region).WithMany().HasForeignKey(x => x.RegionId);
         }
     }
