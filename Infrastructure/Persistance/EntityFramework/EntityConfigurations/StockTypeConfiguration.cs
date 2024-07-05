@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistance.EntityFramework.EntityConfigurations
 {
-    public class StockTypeConfiguration : AudiTableEntityConfiguration<Stock>
+    public class StockTypeConfiguration : AudiTableEntityConfiguration<ProductPrice>
     {
-        public override void Configure(EntityTypeBuilder<Stock> builder)
+        public override void Configure(EntityTypeBuilder<ProductPrice> builder)
         {
             base.Configure(builder);
             builder.HasIndex(x => new { x.ProductId, x.OrganizationId }).IsUnique();

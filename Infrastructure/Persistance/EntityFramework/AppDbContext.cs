@@ -25,7 +25,7 @@ namespace Infrastructure.Persistance.EntityFramework
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<Region> Regions { get; set; }
-        public DbSet<Stock> Stocks { get; set; }
+        public DbSet<ProductPrice> Prices { get; set; }
         public DbSet<Street> Streets { get; set; }
         public DbSet<UserRole> Roles { get; set; }
 

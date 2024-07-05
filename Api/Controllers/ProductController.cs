@@ -1,7 +1,11 @@
 ﻿using Application.UseCases.AddressToDoList.Commands;
 using Application.UseCases.AddressToDoList.Queries;
+using Application.UseCases.InComeToDoList.Commands;
+using Application.UseCases.InComeToDoList.Queries;
 using Application.UseCases.MeasureOfTypetoDoList.Commands;
 using Application.UseCases.MeasureOfTypetoDoList.Queries;
+using Application.UseCases.ProductPriceToDoList.Commands;
+using Application.UseCases.ProductPriceToDoList.Queries;
 using Application.UseCases.ProductToDoList.Commands;
 using Application.UseCases.ProductToDoList.Queries;
 using Application.UseCases.ProductTypeToDoList.Commands;
@@ -210,6 +214,140 @@ namespace Api.Controllers
 
         [HttpDelete("measure-of-type")]
         public async Task<IActionResult> DeleteMeasureOfType(DeleteMeasureOfTypeCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // InCome
+
+        [HttpGet("income")]
+        public async Task<IActionResult> GetInCome([FromQuery] GetInComeQuery query)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("income/all")]
+        public async Task<IActionResult> GetAllInCome([FromQuery] GetAllInComeQuery query)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("income")]
+        public async Task<IActionResult> CreateInCome([FromBody] CreateInComeCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("income")]
+        public async Task<IActionResult> UpdateInCome([FromBody] UpdateInComeCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("income")]
+        public async Task<IActionResult> DeleteInCome(DeleteInComeCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // Price
+
+        [HttpGet("price")]
+        public async Task<IActionResult> GetPrice([FromQuery] GetProductPriceQuery query)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("price/all")]
+        public async Task<IActionResult> GetAllPrice([FromQuery] GetAllProductPriceQuery query)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("price")]
+        public async Task<IActionResult> CreatePrice([FromBody] CreateProductPriceCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("price")]
+        public async Task<IActionResult> UpdatePrice([FromBody] UpdateProductPriceCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("price")]
+        public async Task<IActionResult> DeletePrice(DeleteProductPriceCommand command)
         {
             try
             {

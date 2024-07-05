@@ -1,4 +1,5 @@
 ﻿using Application.UseCases.AuthToDoList.Commands;
+using Application.UseCases.InComeToDoList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,19 @@ namespace Api.Controllers
             try
             {
                 return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> getQr()
+        {
+            try
+            {
+                return Ok(await _mediator.Send(new Test()));
             }
             catch (Exception ex)
             {

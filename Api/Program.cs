@@ -27,6 +27,13 @@ catch (Exception ex)
     Console.WriteLine($"Error applying migrations: {ex.Message}");
 }
 
-await context.SeedAsync();
+try
+{
+    await context.SeedAsync();
+}
+catch(Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}
 
 app.Run();

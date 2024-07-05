@@ -8,20 +8,18 @@
 
   <ItemGroup>
     <Folder Include="Abstractions\Behaviours\" />
-    <Folder Include="UseCases\InComeToDoList\Commands\" />
-    <Folder Include="UseCases\InComeToDoList\Queries\" />
     <Folder Include="UseCases\OutComeToDoList\Commands\" />
     <Folder Include="UseCases\OutComeToDoList\Queries\" />
-    <Folder Include="UseCases\StockToDoList\Commands\" />
-    <Folder Include="UseCases\StockToDoList\Queries\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="BarCode" Version="2024.6.1" />
     <PackageReference Include="MediatR" Version="12.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.Graph" Version="5.56.0" />
+    <PackageReference Include="QRCoder" Version="1.6.0" />
   </ItemGroup>
 
   <ItemGroup>

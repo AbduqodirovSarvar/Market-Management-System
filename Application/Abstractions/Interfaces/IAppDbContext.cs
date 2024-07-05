@@ -21,7 +21,7 @@ namespace Application.Abstractions.Interfaces
         DbSet<Product> Products { get; set; }
         DbSet<ProductType> ProductTypes { get; set; }
         DbSet<Region> Regions { get; set; }
-        DbSet<Stock> Stocks { get; set; }
+        DbSet<ProductPrice> Prices { get; set; }
         DbSet<Street> Streets { get; set; }
         DbSet<UserRole> Roles { get; set; }
 

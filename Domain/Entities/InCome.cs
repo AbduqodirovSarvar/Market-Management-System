@@ -16,5 +16,6 @@ namespace Domain.Entities
         public int Amount { get; set; }
         public decimal Price { get; set; }
         public DateOnly ExpirationAt { get; set; }
+        public string QrCodeFileName { get; set; } = string.Empty;
     }
 }

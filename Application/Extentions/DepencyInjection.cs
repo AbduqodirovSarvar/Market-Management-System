@@ -21,6 +21,7 @@ namespace Application.Extentions
 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IQrCodeService, QrCodeService>();
             var mappingconfig = new MapperConfiguration(x =>
             {
                 x.AddProfile(new MappingProfile());

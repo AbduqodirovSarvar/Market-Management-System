@@ -17,7 +17,7 @@ namespace Application.Services
         {
             // Define the base directory for storing files
             _filesDirectory = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                                                ? Path.Combine(Directory.GetCurrentDirectory(), "..", "MyPortfolio.Application", "Files")
+                                                ? Path.Combine(Directory.GetCurrentDirectory(), "..", "Application", "Files")
                                                 : Path.Combine("/app/Files");
 
             // Ensure the directory exists
