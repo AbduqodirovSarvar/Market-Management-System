@@ -14,7 +14,7 @@ namespace Application.UseCases.InComeToDoList.Commands
         [Required]
         public Guid Id { get; set; }
         public Guid? ProductId { get; set; } = null;
-        public int? Amount { get; set; } = null;
+        public int? InComeAmount { get; set; } = null;
         public decimal? Price { get; set; } = null;
         public DateOnly? ExpirationAt { get; set; } = null;
     }

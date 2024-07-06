@@ -1,40 +1,83 @@
 ﻿using Application.Abstractions.Interfaces;
-using Domain.Entities;
 using QRCoder;
 using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IronBarCode;
 using System.Runtime.InteropServices;
-using Microsoft.Graph.Models;
-using static QRCoder.PayloadGenerator;
+using Microsoft.Extensions.Logging;
+using IronBarCode;
+
 
 namespace Application.Services
 {
     public class QrCodeService : IQrCodeService
     {
         private readonly string _filesDirectory;
-        public QrCodeService() 
+        private readonly ILogger<QrCodeService> _logger;
+
+        public QrCodeService(ILogger<QrCodeService> logger)
         {
+            _logger = logger;
             _filesDirectory = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                                                 ? Path.Combine(Directory.GetCurrentDirectory(), "..", "Application", "Files")
                                                 : Path.Combine("/app/Files");
-            Directory.CreateDirectory(_filesDirectory);
+            try
+            {
+                Directory.CreateDirectory(_filesDirectory);
+                _logger.LogInformation("Files directory created or exists at: {_filesDirectory}", _filesDirectory);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed to create files directory: {ex.Message}", ex.Message);
+                throw;
+            }
         }
+
+        /*public string GenerateQrCode(string data)
+        {
+            string fileName = Guid.NewGuid().ToString() + ".png";
+            string filePath = Path.Combine(_filesDirectory, fileName);
+
+            try
+            {
+                using (QRCodeGenerator qrGenerator = new())
+                {
+                    QRCodeData qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.M);
+                    using QRCode qrCode = new QRCode(qrCodeData);
+                    using Bitmap qrCodeImage = qrCode.GetGraphic(20);
+                    qrCodeImage.Save(filePath, ImageFormat.Png);
+                }
+
+                _logger.LogInformation("QR code saved to: {filePath}", filePath);
+                return fileName;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed to generate QR code: {ex.Message}", ex.Message);
+                throw;
+            }
+        }*/
 
         public string GenerateQrCode(string data)
         {
             string fileName = Guid.NewGuid().ToString() + ".png";
             string filePath = Path.Combine(_filesDirectory, fileName);
-            QRCodeWriter.CreateQrCode(data, 500, QRCodeWriter.QrErrorCorrectionLevel.Medium).SaveAsPng(filePath);
 
+            try
+            {
+                var qrCode = QRCodeWriter.CreateQrCode(data, 500, QRCodeWriter.QrErrorCorrectionLevel.Medium);
+                qrCode.SaveAsPng(filePath);
 
-            return fileName;
+                _logger.LogInformation("QR code saved to: {FilePath}", filePath);
+                return fileName;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed to generate QR code: {Message}", ex.Message);
+                throw;
+            }
         }
+
     }
 }

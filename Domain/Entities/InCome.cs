@@ -14,6 +14,7 @@ namespace Domain.Entities
         public Guid ProductId { get; set; }
         public Product? Product { get; set; }
         public int Amount { get; set; }
+        public int InComeAmount { get; set; }
         public decimal Price { get; set; }
         public DateOnly ExpirationAt { get; set; }
         public string QrCodeFileName { get; set; } = string.Empty;

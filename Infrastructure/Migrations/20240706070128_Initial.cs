@@ -263,6 +263,7 @@ namespace Infrastructure.Migrations
                     OrganizationId = table.Column<Guid>(type: "uuid", nullable: false),
                     ProductId = table.Column<Guid>(type: "uuid", nullable: false),
                     Amount = table.Column<int>(type: "integer", nullable: false),
+                    InComeAmount = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     ExpirationAt = table.Column<DateOnly>(type: "date", nullable: false),
                     QrCodeFileName = table.Column<string>(type: "text", nullable: false),

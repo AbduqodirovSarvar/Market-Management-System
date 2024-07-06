@@ -3,6 +3,7 @@ using Application.UseCases.AddressToDoList.Queries;
 using Application.UseCases.RoleToDoList.Commands;
 using Application.UseCases.RoleToDoList.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(policy: "AdminActions")]
     public class RoleController(
         IMediator mediator
         ) : ControllerBase

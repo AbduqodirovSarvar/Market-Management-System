@@ -1,6 +1,7 @@
 ﻿using Application.UseCases.UserToDoList.Commands;
 using Application.UseCases.UserToDoList.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(policy: "AdminActions")]
     public class UserController(
         IMediator mediator
         ) : ControllerBase

@@ -1,6 +1,7 @@
 ﻿using Application.UseCases.AuthToDoList.Commands;
 using Application.UseCases.InComeToDoList;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +28,7 @@ namespace Api.Controllers
             }
         }
 
+        [Authorize(policy: "AdminActions")]
         [HttpPost("sign-up")]
         public async Task<IActionResult> SignUp([FromBody] RegisterCommand command)
         {

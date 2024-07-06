@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Abstractions\Behaviours\" />
-    <Folder Include="UseCases\OutComeToDoList\Commands\" />
-    <Folder Include="UseCases\OutComeToDoList\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

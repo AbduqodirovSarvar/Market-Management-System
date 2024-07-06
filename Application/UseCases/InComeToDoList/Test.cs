@@ -32,7 +32,18 @@ namespace Application.UseCases.InComeToDoList
                 ExpirationAt = new DateOnly(2020, 04, 1),
             };
 
-            var jsonData = JsonSerializer.Serialize(inCome);
+            var obj = new
+            {
+                inCome.Id,
+                inCome.OrganizationId,
+                inCome.ProductId,
+                inCome.ExpirationAt,
+                inCome.CreatedAt,
+            };
+
+            Console.WriteLine(obj);
+
+            var jsonData = JsonSerializer.Serialize(obj);
 
             var result = _qrCodeService.GenerateQrCode(jsonData);
             return Task.FromResult( result );

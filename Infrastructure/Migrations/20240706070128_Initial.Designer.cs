@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240705111051_Initial")]
+    [Migration("20240706070128_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -190,6 +190,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<DateOnly>("ExpirationAt")
                         .HasColumnType("date");
+
+                    b.Property<int>("InComeAmount")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");

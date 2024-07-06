@@ -62,6 +62,7 @@ namespace Infrastructure.Persistance.EntityFramework
 
         public async Task SeedAsync()
         {
+            Console.WriteLine("WORKING....#########################################################################################################################");
             using var _context = this.GetService<AppDbContext>();
 
             try
@@ -93,7 +94,7 @@ namespace Infrastructure.Persistance.EntityFramework
             }
             catch (Exception ex)
             {
-                Console.Write(ex.ToString());
+                Console.WriteLine($"Error seeding additional data: {ex}");
             }
             try
             {
@@ -102,7 +103,7 @@ namespace Infrastructure.Persistance.EntityFramework
             }
             catch (Exception ex)
             {
-                Console.Write(ex.ToString());
+                Console.WriteLine($"Error seeding additional data: {ex}");
             }
             try
             {
@@ -111,7 +112,7 @@ namespace Infrastructure.Persistance.EntityFramework
             }
             catch (Exception ex)
             {
-                Console.Write(ex.ToString());
+                Console.WriteLine($"Error seeding additional data: {ex}");
             }
 
             try
@@ -121,7 +122,7 @@ namespace Infrastructure.Persistance.EntityFramework
             }
             catch (Exception ex)
             {
-                Console.Write(ex.ToString());
+                Console.WriteLine($"Error seeding additional data: {ex}");
             }
             try
             {
@@ -130,7 +131,7 @@ namespace Infrastructure.Persistance.EntityFramework
             }
             catch (Exception ex)
             {
-                Console.Write(ex.ToString());
+                Console.WriteLine($"Error seeding additional data: {ex}");
             }
         }
     }

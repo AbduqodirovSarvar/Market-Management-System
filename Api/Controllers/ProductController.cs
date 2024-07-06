@@ -4,6 +4,8 @@ using Application.UseCases.InComeToDoList.Commands;
 using Application.UseCases.InComeToDoList.Queries;
 using Application.UseCases.MeasureOfTypetoDoList.Commands;
 using Application.UseCases.MeasureOfTypetoDoList.Queries;
+using Application.UseCases.OutComeToDoList.Commands;
+using Application.UseCases.OutComeToDoList.Queries;
 using Application.UseCases.ProductPriceToDoList.Commands;
 using Application.UseCases.ProductPriceToDoList.Queries;
 using Application.UseCases.ProductToDoList.Commands;
@@ -11,6 +13,7 @@ using Application.UseCases.ProductToDoList.Queries;
 using Application.UseCases.ProductTypeToDoList.Commands;
 using Application.UseCases.ProductTypeToDoList.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +21,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(policy: "AdminActions")]
     public class ProductController(
         IMediator mediator
         ) : ControllerBase
@@ -227,7 +231,7 @@ namespace Api.Controllers
 
         // InCome
 
-        [HttpGet("income")]
+        [HttpGet("in")]
         public async Task<IActionResult> GetInCome([FromQuery] GetInComeQuery query)
         {
             try
@@ -240,7 +244,7 @@ namespace Api.Controllers
             }
         }
 
-        [HttpGet("income/all")]
+        [HttpGet("in/all")]
         public async Task<IActionResult> GetAllInCome([FromQuery] GetAllInComeQuery query)
         {
             try
@@ -253,7 +257,7 @@ namespace Api.Controllers
             }
         }
 
-        [HttpPost("income")]
+        [HttpPost("in")]
         public async Task<IActionResult> CreateInCome([FromBody] CreateInComeCommand command)
         {
             try
@@ -266,7 +270,7 @@ namespace Api.Controllers
             }
         }
 
-        [HttpPut("income")]
+        [HttpPut("in")]
         public async Task<IActionResult> UpdateInCome([FromBody] UpdateInComeCommand command)
         {
             try
@@ -279,8 +283,75 @@ namespace Api.Controllers
             }
         }
 
-        [HttpDelete("income")]
+        [HttpDelete("in")]
         public async Task<IActionResult> DeleteInCome(DeleteInComeCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // OutCome
+
+        [HttpGet("out")]
+        public async Task<IActionResult> GetOutCome([FromQuery] GetOutComeQuery query)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("out/all")]
+        public async Task<IActionResult> GetAllOutCome([FromQuery] GetAllOutComeQuery query)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(query));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("out")]
+        public async Task<IActionResult> CreateOutCome([FromBody] CreateOutComeCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("out")]
+        public async Task<IActionResult> UpdateOutCome([FromBody] UpdateOutComeCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("out")]
+        public async Task<IActionResult> DeleteOutCome(DeleteOutComeCommand command)
         {
             try
             {

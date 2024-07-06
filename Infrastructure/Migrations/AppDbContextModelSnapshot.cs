@@ -188,6 +188,9 @@ namespace Infrastructure.Migrations
                     b.Property<DateOnly>("ExpirationAt")
                         .HasColumnType("date");
 
+                    b.Property<int>("InComeAmount")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 

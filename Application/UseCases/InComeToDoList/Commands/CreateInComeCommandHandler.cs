@@ -42,17 +42,18 @@ namespace Application.UseCases.InComeToDoList.Commands
                 OrganizationId = currentUser.OrganizationId,
                 ProductId = request.ProductId,
                 Amount = request.Amount,
+                InComeAmount = request.Amount,
                 Price = request.Price,
                 ExpirationAt = request.ExpirationAt,
             };
 
             var obj = new
             {
-                InComeId = inCome.Id,
-                OrganizationId = inCome.OrganizationId,
-                ProductId = inCome.ProductId,
-                ExpirationAt = inCome.ExpirationAt,
-                CreatedAt = inCome.CreatedAt,
+                inCome.Id,
+                inCome.OrganizationId,
+                inCome.ProductId,
+                inCome.ExpirationAt,
+                inCome.CreatedAt,
             };
 
             var jsonData = JsonSerializer.Serialize(obj);

@@ -9,6 +9,7 @@ using Application.UseCases.RegionToDoList.Queries;
 using Application.UseCases.StreetToDoList.Commands;
 using Application.UseCases.StreetToDoList.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(policy: "AdminActions")]
     public class AddressController(
         IMediator mediator
         ) : ControllerBase

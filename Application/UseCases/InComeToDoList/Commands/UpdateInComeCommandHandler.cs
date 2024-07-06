@@ -37,8 +37,13 @@ namespace Application.UseCases.InComeToDoList.Commands
             }
 
             inCome.ExpirationAt = request.ExpirationAt ?? inCome.ExpirationAt;
-            inCome.Amount = request.Amount ?? inCome.Amount;
             inCome.Price = request.Price ?? inCome.Price;
+            if(request.InComeAmount != null)
+            {
+                var difference = (int)request.InComeAmount - inCome.InComeAmount;
+                inCome.Amount += difference;
+                inCome.InComeAmount = (int)request.InComeAmount;
+            }
 
 
             if (request.ProductId != null)
@@ -51,11 +56,11 @@ namespace Application.UseCases.InComeToDoList.Commands
 
             var obj = new
             {
-                InComeId = inCome.Id,
-                OrganizationId = inCome.OrganizationId,
-                ProductId = inCome.ProductId,
-                ExpirationAt = inCome.ExpirationAt,
-                CreatedAt = inCome.CreatedAt,
+                inCome.Id,
+                inCome.OrganizationId,
+                inCome.ProductId,
+                inCome.ExpirationAt,
+                inCome.CreatedAt,
             };
 
             var jsonData = JsonSerializer.Serialize(obj);
