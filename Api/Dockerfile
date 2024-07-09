@@ -7,6 +7,7 @@ EXPOSE 8080
 
 ENV ConnectionStrings__SQLiteConnection="Data Source=/app/DB/MMS.db" 
 ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_URLS=http://+:8080
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
