@@ -5,7 +5,6 @@ USER app
 WORKDIR /app
 EXPOSE 8080
 
-ENV ConnectionStrings__DefaultConnection=Server=postgresql;Database=MMS;Port=5432;User Id=postgres;Password=12345;Include Error Detail=true;
 #ENV ConnectionStrings__SQLiteConnection="Data Source=/app/DB/MMS.db" 
 ENV ASPNETCORE_ENVIRONMENT=Production
 ENV ASPNETCORE_URLS=http://+:8080
