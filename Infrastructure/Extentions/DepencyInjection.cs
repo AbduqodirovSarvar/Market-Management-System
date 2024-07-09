@@ -28,8 +28,7 @@ namespace Infrastructure.Extentions
             services.AddScoped<IHashService, HashService>();
             services.AddScoped<ITokenService, TokenService>();
 
-            // var connectionString = configuration.GetConnectionString("DefaultConnection");
-            var connectionString = configuration.GetConnectionString("ConnectionStrings__SQLiteConnection");
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
             var dataSource = dataSourceBuilder.Build();
