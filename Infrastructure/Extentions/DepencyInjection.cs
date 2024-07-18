@@ -5,6 +5,7 @@ using Infrastructure.Persistance.DefaultInformations;
 using Infrastructure.Persistance.EntityFramework;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +30,7 @@ namespace Infrastructure.Extentions
             services.AddScoped<ITokenService, TokenService>();
 
             var connectionString = configuration.GetConnectionString("SQLiteConnection");
+            EnsureDatabaseCreated(connectionString!);
 
             services.AddDbContext<AppDbContext>(options =>
                         options.UseSqlite(connectionString));
@@ -63,6 +65,17 @@ namespace Infrastructure.Extentions
             services.AddAuthorization();
 
             return services;
+        }
+
+        private static void EnsureDatabaseCreated(string connectionString)
+        {
+            var connection = new SqliteConnection(connectionString);
+            var databaseFilePath = connection.DataSource;
+            if (!File.Exists(databaseFilePath))
+            {
+                connection.Open();
+                connection.Close();
+            }
         }
     }
 }
