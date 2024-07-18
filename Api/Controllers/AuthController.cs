@@ -41,18 +41,5 @@ namespace Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet]
-        public async Task<IActionResult> getQr()
-        {
-            try
-            {
-                return Ok(await _mediator.Send(new Test()));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
     }
 }
