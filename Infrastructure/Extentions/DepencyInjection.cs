@@ -29,11 +29,11 @@ namespace Infrastructure.Extentions
             services.AddScoped<IHashService, HashService>();
             services.AddScoped<ITokenService, TokenService>();
 
-            var connectionString = configuration.GetConnectionString("SQLiteConnection");
+            /*var sqliteConnectionString = configuration.GetConnectionString("SQLiteConnection");
             EnsureDatabaseCreated(connectionString!);
 
             services.AddDbContext<AppDbContext>(options =>
-                        options.UseSqlite(connectionString));
+                        options.UseSqlite(connectionString));*/
 
             /*   services.AddDbContext<AppDbContext>(options =>
                {
@@ -41,7 +41,9 @@ namespace Infrastructure.Extentions
                        o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
                });*/
 
-            /*var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
+            var postgreSqlConnectionString = configuration.GetConnectionString("DefaultConnection");
+
+            var dataSourceBuilder = new NpgsqlDataSourceBuilder(postgreSqlConnectionString);
             var dataSource = dataSourceBuilder.Build();
 
             services.AddDbContext<IAppDbContext, AppDbContext>((serviceProvider, options) =>
@@ -54,7 +56,7 @@ namespace Infrastructure.Extentions
                         options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
                     })
                     .EnableSensitiveDataLogging();
-            });*/
+            });
 
             services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
 
