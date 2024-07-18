@@ -32,6 +32,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("all")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllRole([FromQuery] GetAllUserRoleQuery query)
         {
             try
