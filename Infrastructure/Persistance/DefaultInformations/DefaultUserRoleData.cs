@@ -12,6 +12,7 @@ public static class DefaultUserRoleData
     public static readonly List<UserRole> DefaultUserRoles = [
         new UserRole
             {
+                Id = Guid.Parse("ddcd0ddd-36bf-4d3a-93a0-0e736cdc77c2"),
                 NameEn = "SuperAdmin",
                 NameUz = "SuperAdmin",
                 NameRu = "СуперАдмин",
@@ -21,6 +22,7 @@ public static class DefaultUserRoleData
             },
         new UserRole
             {
+                Id = Guid.Parse("d3db861b-78c0-4da6-a10f-271921845dc9"),
                 NameEn = "Admin",
                 NameUz = "Admin",
                 NameRu = "Админ",

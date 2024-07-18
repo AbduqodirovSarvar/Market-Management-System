@@ -62,7 +62,6 @@ namespace Infrastructure.Persistance.EntityFramework
 
         public async Task SeedAsync()
         {
-            Console.WriteLine("WORKING....#########################################################################################################################");
             using var _context = this.GetService<AppDbContext>();
 
             try
