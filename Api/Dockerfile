@@ -42,7 +42,7 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 # Ensure necessary permissions
-RUN chmod 777 /app/Files/MMS.db && chmod 777 /app/Files
+RUN chmod 777 /app/Files
 
 # Entry point
 ENTRYPOINT ["dotnet", "Api.dll"]
