@@ -5,7 +5,7 @@ USER app
 WORKDIR /app
 EXPOSE 8080
 
-ENV ConnectionStrings__SQLiteConnection=Data Source=/app/Files/MMS.sqlite
+ENV ConnectionStrings__SQLiteConnection="Data Source=/app/Files/MMS.sqlite"
 ENV ASPNETCORE_ENVIRONMENT=Production
 ENV ASPNETCORE_URLS=http://+:8080
 
