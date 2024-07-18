@@ -5,7 +5,7 @@ EXPOSE 8080
 VOLUME /app/Files
 
 # Set environment variables
-ENV ConnectionStrings__SQLiteConnection="Data Source=/app/Files/MMS.db"
+ENV ConnectionStrings__SQLiteConnection=Data Source="/app/Files/MMS.db"
 ENV ASPNETCORE_ENVIRONMENT=Production
 ENV ASPNETCORE_URLS=http://+:8080
 
